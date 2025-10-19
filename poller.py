@@ -63,4 +63,7 @@ def start_scheduler():
     scheduler.add_job(poll_and_store, "interval", seconds=POLL_INTERVAL_SECONDS)
     scheduler.start()
     print(f"Started poller every {POLL_INTERVAL_SECONDS} seconds")
+if __name__ == "__main__":
+    start_scheduler()
+    poll_and_store()
 
