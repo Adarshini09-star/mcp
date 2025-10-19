@@ -9,7 +9,7 @@ import json
 from datetime import datetime, timedelta
 from typing import Optional, List
 import sqlite3
-
+import os
 from mcp.server import Server
 from mcp.types import Tool, TextContent
 import mcp.server.stdio
@@ -17,9 +17,8 @@ import mcp.server.stdio
 # Database helper
 def get_db_connection():
     """Get database connection"""
-    conn = sqlite3.connect("pendle_history.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+    db_path = os.path.join(os.path.dirname(__file__), "pendle_history.db")
+    conn = sqlite3.connect(db_path)
 
 # Initialize MCP server
 app = Server("pendle-mcp-server")
