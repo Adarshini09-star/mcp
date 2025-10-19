@@ -89,12 +89,24 @@ def start_scheduler():
 
 if __name__ == "__main__":
     print(f"[{datetime.now()}] 🚀 Starting Pendle poller service...")
-    start_scheduler()
-
+    
     # Run once immediately
     poll_and_store()
 
-    # Keep running indefinitely
-    while True:
-        time.sleep(30)
+    # Start background scheduler
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(poll_and_store, "interval", seconds=POLL_INTERVAL_SECONDS)
+    scheduler.start()
+
+    print(f"[{datetime.now()}] 🟢 Poller is running every {POLL_INTERVAL_SECONDS} seconds...")
+    print(f"[{datetime.now()}] Press CTRL+C to stop.\n")
+
+    try:
+        # Keep the script running indefinitely
+        while True:
+            time.sleep(30)
+    except KeyboardInterrupt:
+        print(f"[{datetime.now()}] 🛑 Poller stopped by user.")
+        scheduler.shutdown()
+
 
