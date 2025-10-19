@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Pendle Finance MCP Server
 Provides tools for querying Pendle market data, analytics, and insights
@@ -10,6 +9,7 @@ from datetime import datetime, timedelta
 from typing import Optional, List
 import sqlite3
 import os
+
 from mcp.server import Server
 from mcp.types import Tool, TextContent
 import mcp.server.stdio
@@ -17,8 +17,16 @@ import mcp.server.stdio
 # Database helper
 def get_db_connection():
     """Get database connection"""
-    db_path = os.path.join(os.path.dirname(__file__), "pendle_history.db")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(script_dir, "pendle_history.db")
+    
+    # Check if database exists
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"Database not found at: {db_path}")
+    
     conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Initialize MCP server
 app = Server("pendle-mcp-server")
@@ -436,5 +444,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
              
   
