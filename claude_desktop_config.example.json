@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pendle-mcp": {
+      "command": "/path/to/your/venv/bin/python",
+      "args": [
+        "/path/to/your/mcp_server.py"
+      ]
+    }
+  }
+}
