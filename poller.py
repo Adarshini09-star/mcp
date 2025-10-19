@@ -66,4 +66,6 @@ def start_scheduler():
 if __name__ == "__main__":
     start_scheduler()
     poll_and_store()
-
+    import time
+    while True:
+        time.sleep(10)
