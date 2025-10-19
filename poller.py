@@ -15,9 +15,16 @@ def fetch_active_markets():
     """Fetch list of active markets from Pendle API."""
     url = f"{PENDLE_BASE}/markets"
     print(f"[{datetime.now()}] Fetching markets from {url}")
-    r = requests.get(url, timeout=20)
-    r.raise_for_status()
-    return r.json()
+    try:
+        r = requests.get(url, timeout=20)
+        print(f"[{datetime.now()}] Response status: {r.status_code}")
+        print(f"[{datetime.now()}] Raw response: {r.text[:500]}")  # print first 500 chars
+        r.raise_for_status()
+        return r.json()
+    except Exception as e:
+        print(f"[{datetime.now()}] ❌ Error fetching markets: {e}")
+        return {}
+
 
 
 def fetch_market_details(market_id):
