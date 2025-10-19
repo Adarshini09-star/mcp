@@ -5,10 +5,7 @@ from db import SessionLocal
 from datetime import datetime, timedelta
 
 def simple_trend_insight(market_id, lookback_hours=72):
-    """
-    Produces a short human readable insight using the stored snapshots.
-    Replace or augment with an LLM call for richer explanations.
-    """
+   
     session = SessionLocal()
     cutoff = datetime.utcnow() - timedelta(hours=lookback_hours)
     rows = session.query(__import__("db").MarketSnapshot).filter(
@@ -21,7 +18,7 @@ def simple_trend_insight(market_id, lookback_hours=72):
         return {"insight": "Not enough historical data yet to generate trend insights."}
 
     df = pd.DataFrame([{"t": r.timestamp, "pt_price": r.pt_price, "sy_price": r.sy_price, "tvl": r.tvl} for r in rows])
-    # simple linear trend on pt_price
+   
     if df["pt_price"].notnull().sum() >= 2:
         x = np.arange(len(df))
         y = df["pt_price"].fillna(method='ffill').values
