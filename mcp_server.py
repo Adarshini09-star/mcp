@@ -27,7 +27,7 @@ app = Server("pendle-mcp-server")
 # ==================== TOOL DEFINITIONS ====================
 
 @app.list_tools()
-async def list_tools() -> list[Tool]:
+async def list_tools() -> list:
     """List all available tools"""
     return [
         Tool(
@@ -35,8 +35,7 @@ async def list_tools() -> list[Tool]:
             description="Get a list of all tracked Pendle markets with their latest data including PT price, SY price, and TVL",
             inputSchema={
                 "type": "object",
-                "properties": {},
-                "required": []
+                "properties": {}
             }
         ),
         Tool(
@@ -135,7 +134,7 @@ async def list_tools() -> list[Tool]:
 # ==================== TOOL IMPLEMENTATIONS ====================
 
 @app.call_tool()
-async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+async def call_tool(name: str, arguments: dict) -> list:
     """Handle tool calls"""
     
     try:
@@ -438,3 +437,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+             
+  
